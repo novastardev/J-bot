@@ -4,7 +4,6 @@ psutil>=5.8.0
 yfinance>=0.1.63
 wikipedia>=1.4.0
 rich>=10.0.0
-textual>=0.15.0
 # cryptography is required for encrypted vault features
 # Install via: pip install cryptography
 # In Termux, you may need: pkg install python-cryptography

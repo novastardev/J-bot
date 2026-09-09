@@ -120,7 +120,7 @@ def vault_get(key: str):
     
     data = _load_vault()
     if key in data:
-        # Mask output in logs/TUI by default—caller decides whether to show
+        # Mask output in logs by default—caller decides whether to show
         return f"[VAULT:{key}]"  # placeholder; actual value returned raw to agent
     return f"Error: No secret found for key '{key}'."
 

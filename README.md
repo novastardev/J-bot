@@ -10,7 +10,7 @@ inspection, and multi-step workflows.
 
 [![Python](https://img.shields.io/badge/Python-3.9%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![LLM API](https://img.shields.io/badge/LLM-OpenAI--compatible-111827?logo=openai&logoColor=white)](#llm-provider-configuration)
-[![Interface](https://img.shields.io/badge/interface-Terminal%20TUI-7C3AED)](#how-it-works)
+[![Interface](https://img.shields.io/badge/interface-Terminal-7C3AED)](#how-it-works)
 [![License](https://img.shields.io/badge/license-MIT-16A34A)](LICENSE)
 
 </div>
@@ -61,7 +61,7 @@ The project is intentionally lightweight:
 - The application is written in Python.
 - Tools are ordinary Python functions registered with a decorator.
 - Conversation state is stored locally in JSON files.
-- The primary interface is a full-screen terminal application.
+- The primary interface is a terminal chat script with Rich panels.
 - The architecture does not require a database server.
 
 ### Product model
@@ -154,7 +154,7 @@ Break this goal into steps and execute the steps one by one.
 
 ### 1. The terminal collects a request
 
-The primary interface is implemented in `jbot/tui.py` using Textual. It
+The primary interface is implemented in `jbot/cli.py` with Rich panels. It
 displays user messages, streamed assistant output, tool activity, plan steps,
 status updates, and errors.
 
@@ -238,8 +238,7 @@ The main dependency set includes:
 | `psutil` | System and resource information |
 | `yfinance` | Stock data |
 | `wikipedia` | Wikipedia summaries |
-| `rich` | Legacy terminal UI |
-| `textual` | Primary full-screen terminal UI |
+| `rich` | Terminal chat UI |
 | `cryptography` | Encrypted vault support |
 
 Some optional features import additional packages lazily. See
@@ -390,14 +389,12 @@ python -m jbot
 
 The terminal interface includes:
 
-- A header showing the application identity
-- A scrollable conversation area
-- Separate user and assistant message panels
+- A magenta J-BOT banner and intro panel
+- Green user message panels and magenta assistant panels
 - Live streamed responses
 - Tool activity lines
 - Plan and step status updates
-- A command footer
-- Keyboard cancellation
+- Slash commands such as `/help`, `/tools`, and `/plan`
 
 ### Compatibility entry point
 
@@ -680,12 +677,12 @@ J-bot/
 │   ├── __init__.py          Package metadata
 │   ├── __main__.py         python -m jbot entry point
 │   ├── agent.py            Agent loop and planning flow
-│   ├── cli.py              CLI bridge to the TUI
+│   ├── cli.py              Terminal chat loop
 │   ├── config.py           Environment and path configuration
 │   ├── llm.py              OpenAI-compatible HTTP client
 │   ├── session.py          Named session persistence
-│   ├── tui.py              Primary Textual interface
-│   ├── ui.py               Legacy Rich interface
+│   ├── tui.py              Compatibility shim for the CLI
+│   ├── ui.py               Rich terminal rendering
 │   └── tools/
 │       ├── registry.py     Tool decorator, schemas, execution
 │       ├── files.py        File operations
@@ -809,7 +806,7 @@ missing package, then retry the feature. Common optional dependencies include
 packages for cron parsing, desktop notifications, speech synthesis, and audio
 playback.
 
-### Textual interface does not start
+### Terminal interface does not start
 
 Confirm the primary dependencies are installed:
 
@@ -817,9 +814,6 @@ Confirm the primary dependencies are installed:
 python -m pip install -r requirements.txt
 python -m jbot
 ```
-
-If you are using a very small terminal window, resize it before starting the
-full-screen interface.
 
 ### File tool rejects a path
 
@@ -879,7 +873,7 @@ python -m compileall -q .
 ### Implemented
 
 - Modular Python package layout
-- Textual terminal interface
+- Rich terminal chat interface
 - OpenAI-compatible chat client
 - Streaming responses
 - Automatic tool schema generation
