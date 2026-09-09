@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Virtual envs
+venv/
+env/
+ENV/
+.venv/
+
+# Test / temp junk
+memory_test.json
+memory.json
+history.json
+sessions/
+*.log
+*.tmp
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Env secrets
+.env
+.env.*
+!.env.example
