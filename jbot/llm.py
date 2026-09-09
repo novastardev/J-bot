@@ -101,6 +101,8 @@ def chat_stream(messages, tools=None, tool_choice="auto", on_token=None, cancel_
         raise LLMError("API request timed out. The service may be slow or unreachable.") from exc
     except requests.exceptions.ConnectionError as exc:
         raise LLMError("Could not connect to the LLM API. Check the base URL and network.") from exc
+    except requests.exceptions.RequestException as exc:
+        raise LLMError(f"API request failed: {exc}") from exc
 
     if response.status_code != 200:
         raise LLMError(f"API error {response.status_code}: {response.text[:300]}")
@@ -120,6 +122,8 @@ def chat_stream(messages, tools=None, tool_choice="auto", on_token=None, cancel_
         try:
             chunk = json.loads(raw)
         except json.JSONDecodeError:
+            continue
+        except UnicodeDecodeError:
             continue
         choices = chunk.get("choices") or []
         if not choices:

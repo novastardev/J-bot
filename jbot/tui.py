@@ -416,6 +416,8 @@ class JBotTUI(App):
             )
             if self._stream_bubble is None:
                 self.call_from_thread(self._add_bot, chat, reply or "(no reply)")
+        except Exception as e:
+            self.call_from_thread(self._add_status, chat, f"Error: {e}")
         finally:
             self.call_from_thread(self._idle)
 
@@ -429,6 +431,8 @@ class JBotTUI(App):
             )
             if self._stream_bubble is None:
                 self.call_from_thread(self._add_bot, chat, result or "(no reply)")
+        except Exception as e:
+            self.call_from_thread(self._add_status, chat, f"Error: {e}")
         finally:
             self.call_from_thread(self._idle)
 
